@@ -1,11 +1,12 @@
-import World
-import Agent
+import operator
+import numpy as np
 
+a = np.array([
+    [1, 2],
+    [3, 4]
+])
 
+print(a[0, 0])
+print(a[(0, 0)])
+print(a[[0, 0]])
 
-w = World.World((10, 10))
-w.InitWorld()
-w.initLife(3)
-
-
-a: Agent.SimpleAgent = w.agents[0]

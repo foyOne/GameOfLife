@@ -18,7 +18,7 @@ class World:
 
     def __init__(self, size):
         self.size = size
-        self.resources = np.zeros(self.size, dtype=np.uint8)
+        self.resources = np.zeros(self.size)
     
     def InitWorld(self, MPR = 30):
         self.MPR = abs(MPR)
@@ -78,9 +78,6 @@ class World:
         for a in self.agents:
             positionList.append(a.GetPosition())
         return position in positionList
-        # return position in positionList
-
-
 
     def AddAgent(self, agent):
         if self.resources.size >= len(self.agents):
@@ -104,11 +101,14 @@ class World:
     def GetMentalDamage(self):
         return self.mentalDamage
     
+    def GetResourcesInPosition(self, position):
+        if self.IsCorrectPosition(position):
+            return self.resources[position]
 
     def UpdateResources(self, value = 1, percent = 0.4):
         value = min(abs(value), self.MPR)
 
-        newResources = np.random.randint(0, value + 1, self.size, dtype=np.uint8).ravel()
+        newResources = np.random.randint(0, value + 1, self.size).ravel()
         indexList = np.random.randint(0, newResources.size, int(newResources.size * (1 - percent)))
         newResources[indexList] = 0
         self.resources += np.reshape(newResources, self.size)
@@ -117,6 +117,28 @@ class World:
     
     def GetCurrentState(self):
         return self.resources
+    
+    def GetAgentByPosition(self, position):
+        agents = []
+        for a in self.agents:
+            if position == a.GetPosition():
+                agents.append(a)
+        return agents
+    
+    def GetIndex(self, position):
+        return np.array([[[i - 1, j - 1] for j in range(3)] for i in range(3)]).reshape(9, 2) + position
+    
+
+    def WhatIsAround(self, position):
+        positionList = self.GetIndex(position)
+        resources = dict()
+        agents = dict()
+        for pos in positionList:
+            if self.IsCorrectPosition(pos):
+                resources[pos] = self.resources[pos]
+                agents[pos] = self.GetAgentByPosition(pos)
+            
+        return resources, agents
 
 
 w = World((4, 4))
