@@ -1,12 +1,8 @@
 import operator
 import numpy as np
+from collections import Counter
 
-a = np.array([
-    [1, 2],
-    [3, 4]
-])
+a = {1:2}
 
-print(a[0, 0])
-print(a[(0, 0)])
-print(a[[0, 0]])
+a.pop(5, None)
 

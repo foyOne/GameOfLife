@@ -9,8 +9,8 @@ class PyGameGUI():
     def __init__(self, resolution, tile):
         self.resolution = resolution # (WIDTH, HEIGHT)
         self.tile = tile
-        self.row = resolution[0] // tile
-        self.col = resolution[1] // tile
+        self.row = resolution[1] // tile
+        self.col = resolution[0] // tile
     
     def Init(self):
         pygame.init()
@@ -25,8 +25,10 @@ class PyGameGUI():
     
     def Paint(self, position, color):
         i, j = position
-        a, b = i * self.tile + self.tile // 4, j * self.tile + self.tile // 4
-        c, d = self.tile // 2, self.tile // 2
+        # a, b = i * self.tile + self.tile // 4, j * self.tile + self.tile // 4
+        # c, d = self.tile // 2, self.tile // 2
+        a, b = j * self.tile, i * self.tile
+        c, d = self.tile, self.tile
         pygame.draw.rect(self.Surface, pygame.Color(color), (a, b, c, d))
 
     def GameProcess(self):
@@ -56,7 +58,7 @@ class PyGameGUI():
             self.Clock.tick(self.FPS)
 
 
-gui = PyGameGUI((1200, 600), 50)
+gui = PyGameGUI((1200, 600), 25)
 gui.Init()
 gui.Tune({ 'FPS': 10 })
 gui.Run()
