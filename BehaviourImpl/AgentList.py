@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 class Herbivorous(IAgent):
 
-    proportion = 0.9
+    proportion = 0.8
     MaxPhysical = 30
     MaxMental = 10
     MaxFood = 2
